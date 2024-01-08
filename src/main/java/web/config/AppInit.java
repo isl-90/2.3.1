@@ -2,6 +2,7 @@ package web.config;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.FilterRegistration;
@@ -34,12 +35,17 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     public void onStartup(ServletContext aServletContext) throws ServletException {
+        // Регистрация фильтра кодировки
         FilterRegistration.Dynamic encodingFilter = aServletContext.addFilter("encodingFilter", new CharacterEncodingFilter());
         encodingFilter.setInitParameter("encoding", "UTF-8");
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
+
+        // Регистрация фильтра для поддержки HTTP-методов, включая PATCH
+        FilterRegistration.Dynamic httpPutFormContentFilter = aServletContext.addFilter("httpPutFormContentFilter", new HttpPutFormContentFilter());
+        httpPutFormContentFilter.addMappingForUrlPatterns(null, true, "/*");
+
         super.onStartup(aServletContext);
-        registerHiddenFieldFilter(aServletContext);
     }
 
     private void registerHiddenFieldFilter(ServletContext aContext) {

@@ -35,7 +35,7 @@ public class HibetnateConfig {
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/my_db?useSSL=false&serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/my_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true");
         dataSource.setUsername("bestuser");
         dataSource.setPassword("bestuser");
         return dataSource;

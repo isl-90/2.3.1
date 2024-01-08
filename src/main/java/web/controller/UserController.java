@@ -1,4 +1,5 @@
 package web.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import web.model.User;
 import web.service.UserService;
 
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +36,7 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/show")
     public String show(@RequestParam("id") int id, Model model) {
         model.addAttribute("users", userService.getUserById(id));
         return "show";
@@ -45,8 +47,8 @@ public class UserController {
         return "new";
     }
 
-    @PostMapping()//"/new"
-    public String create(@ModelAttribute("users") @Valid User user, //@Valid
+    @PostMapping() // "/new"
+    public String create(@ModelAttribute("users") @Valid User user,
                          BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "new";
@@ -54,13 +56,13 @@ public class UserController {
         return "redirect:/people";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit")
     public String edit(Model model, @RequestParam("id") int id) {
         model.addAttribute("users", userService.getUserById(id));
         return "edit";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/update")
     public String update(@ModelAttribute("users") @Valid User user,
                          BindingResult bindingResult, @RequestParam("id") int id) {
         if (bindingResult.hasErrors())
@@ -69,7 +71,7 @@ public class UserController {
         return "redirect:/people";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/delete")
     public String delete(@RequestParam("id") int id) {
         userService.removeUser(id);
         return "redirect:/people";
